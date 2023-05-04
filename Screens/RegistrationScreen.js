@@ -15,6 +15,7 @@ import {
 } from "react-native";
 
 export default function RegistrationScreen() {
+  console.log(Platform.OS);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -106,13 +107,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   inputTitle: {
-    marginBottom: 5,
+    marginBottom: 4,
     color: "#E8E8E8",
   },
   input: {
     height: 50,
 
-    marginBottom: 16,
+    marginBottom: 12,
 
     borderWidth: 1,
     borderRadius: 8,
@@ -123,8 +124,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: 50,
-    marginTop: 20,
+    marginTop: 26,
+
+    borderWidth: 1,
     borderRadius: 100,
+    borderColor: '#E8E8E8',
     backgroundColor: "#FF6C00",
   },
   btnTitle: {
