@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
 
     borderWidth: 1,
     borderRadius: 100,
-    borderColor: '#E8E8E8',
+    borderColor: 'transparent',
     backgroundColor: "#FF6C00",
   },
   btnTitle: {

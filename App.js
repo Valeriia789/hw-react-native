@@ -1,6 +1,6 @@
 import React from "react";
 import RegistrationScreen from "./Screens/RegistrationScreen";
-import LoginScreen from "./Screens/LoginScreen";
+// import LoginScreen from "./Screens/LoginScreen";
 
 // npm i expo-font
 // import * as Font from 'expo-font';
