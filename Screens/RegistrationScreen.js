@@ -13,16 +13,26 @@ import {
   Alert,
 } from "react-native";
 
+import * as Font from "expo-font";
+import AppLoading from "expo-app-loading";
+
+const initialState = {
+  username: "",
+  email: "",
+  password: "",
+};
+
+const loadApplication = async () => {
+  await Font.loadAsync({
+    "AmaticSC-Regular": require("../assets/fonts/AmaticSC-Regular.ttf"),
+  });
+};
+
 export default function RegistrationScreen() {
   console.log(Platform.OS);
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [state, setState] = useState(initialState);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-
-  const usernameHandler = (text) => setUsername(text);
-  const emailHandler = (text) => setEmail(text);
-  const passwordHandler = (text) => setPassword(text);
+  const [isReady, setIsReady] = useState(false);
 
   const keyboardHide = () => {
     setIsShowKeyboard(false);
@@ -33,12 +43,22 @@ export default function RegistrationScreen() {
     Alert.alert("Credentials", `${username} + ${email} + ${password}`);
   };
 
+  if (!isReady) {
+    return (
+      <AppLoading
+        startAsync={loadApplication}
+        onFinish={() => setIsReady(true)}
+        onError={console.warn}
+      />
+    );
+  }
+
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
       <View style={styles.container}>
         <ImageBackground
           style={styles.image}
-          source={require("../images/background.jpg")}
+          source={require("../assets/images/background.jpg")}
         >
           <KeyboardAvoidingView
             // якщо платформа ios, KeyboardAvoidingView додасть падінг для форми на висоту клавіатури
@@ -55,35 +75,41 @@ export default function RegistrationScreen() {
               <View>
                 <Text style={styles.inputTitle}>Enter your name</Text>
                 <TextInput
-                  value={username}
-                  onChangeText={usernameHandler}
-                  onFocus={() => setIsShowKeyboard(true)}
                   placeholder="Username"
                   style={styles.input}
                   // textAlign="center"
+                  onFocus={() => setIsShowKeyboard(true)}
+                  value={state.username}
+                  onChangeText={(value) =>
+                    setState((prevState) => ({ ...prevState, username: value }))
+                  }
                 />
               </View>
 
               <View>
                 <Text style={styles.inputTitle}>Enter your email</Text>
                 <TextInput
-                  value={email}
-                  onChangeText={emailHandler}
-                  onFocus={() => setIsShowKeyboard(true)}
                   placeholder="Email"
                   style={styles.input}
+                  onFocus={() => setIsShowKeyboard(true)}
+                  value={state.email}
+                  onChangeText={(value) =>
+                    setState((prevState) => ({ ...prevState, email: value }))
+                  }
                 />
               </View>
 
               <View>
                 <Text style={styles.inputTitle}>Enter password</Text>
                 <TextInput
-                  value={password}
-                  onChangeText={passwordHandler}
-                  onFocus={() => setIsShowKeyboard(true)}
                   placeholder="Password"
-                  secureTextEntry={true}
                   style={styles.input}
+                  secureTextEntry={true}
+                  onFocus={() => setIsShowKeyboard(true)}
+                  value={state.password}
+                  onChangeText={(value) =>
+                    setState((prevState) => ({ ...prevState, password: value }))
+                  }
                 />
               </View>
 
@@ -125,13 +151,15 @@ const styles = StyleSheet.create({
   },
 
   formTitle: {
+    fontFamily: "AmaticSC-Regular",
     fontSize: 30,
     color: "#000000",
   },
 
   inputTitle: {
     marginBottom: 4,
-    color: "#E8E8E8",
+    fontFamily: "AmaticSC-Regular",
+    color: "#a2a2a2",
   },
 
   input: {
@@ -139,6 +167,11 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     borderWidth: 1,
     borderRadius: 8,
+
+    // fontFamily: "AmaticSC-Regular",
+    // fontSize: 20,
+    color: "#171717",
+
     borderColor: "#E8E8E8",
     backgroundColor: "#F6F6F6",
   },
@@ -161,7 +194,8 @@ const styles = StyleSheet.create({
   },
 
   btnTitle: {
-    fontSize: 16,
+    fontFamily: "AmaticSC-Regular",
+    fontSize: 24,
     fontWeight: 400,
     color: "#F6F6F6",
   },
