@@ -11,7 +11,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-  Button,
 } from "react-native";
 
 export default function RegistrationScreen() {
@@ -19,31 +18,46 @@ export default function RegistrationScreen() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
   const usernameHandler = (text) => setUsername(text);
   const emailHandler = (text) => setEmail(text);
   const passwordHandler = (text) => setPassword(text);
+
+  const keyboardHide = () => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+  };
 
   const onRegister = () => {
     Alert.alert("Credentials", `${username} + ${email} + ${password}`);
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback onPress={keyboardHide}>
       <View style={styles.container}>
         <ImageBackground
           style={styles.image}
           source={require("../images/background.jpg")}
         >
-          <View style={styles.form}>
-            <KeyboardAvoidingView
-              behavior={Platform.OS == "ios" ? "padding" : "height"}
+          <KeyboardAvoidingView
+            // якщо платформа ios, KeyboardAvoidingView додасть падінг для форми на висоту клавіатури
+            // якщо платформа android, додасть просто висоту
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+          >
+            <View
+              style={{ ...styles.form, marginBottom: isShowKeyboard ? 20 : 0 }}
             >
+              <View style={styles.formHeader}>
+                <Text style={styles.formTitle}>Registration</Text>
+              </View>
+
               <View>
                 <Text style={styles.inputTitle}>Enter your name</Text>
                 <TextInput
                   value={username}
                   onChangeText={usernameHandler}
+                  onFocus={() => setIsShowKeyboard(true)}
                   placeholder="Username"
                   style={styles.input}
                   // textAlign="center"
@@ -55,6 +69,7 @@ export default function RegistrationScreen() {
                 <TextInput
                   value={email}
                   onChangeText={emailHandler}
+                  onFocus={() => setIsShowKeyboard(true)}
                   placeholder="Email"
                   style={styles.input}
                 />
@@ -65,17 +80,22 @@ export default function RegistrationScreen() {
                 <TextInput
                   value={password}
                   onChangeText={passwordHandler}
+                  onFocus={() => setIsShowKeyboard(true)}
                   placeholder="Password"
                   secureTextEntry={true}
                   style={styles.input}
                 />
               </View>
 
-              <TouchableOpacity activeOpacity={0.8} style={styles.btn}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={styles.btn}
+                onPress={keyboardHide}
+              >
                 <Text style={styles.btnTitle}>Sign Up</Text>
               </TouchableOpacity>
-            </KeyboardAvoidingView>
-          </View>
+            </View>
+          </KeyboardAvoidingView>
         </ImageBackground>
       </View>
     </TouchableWithoutFeedback>
@@ -83,43 +103,46 @@ export default function RegistrationScreen() {
 }
 
 const styles = StyleSheet.create({
-  // height: Platform.OS === "ios" ? 50 : 100,
-
   container: {
     flex: 1,
-    // alignItems: "center",
-    // justifyContent: "center",
-    // ...Platform.select({
-    //   ios: {
-    //     backgroundColor: "pink",
-    //   },
-    //   android: {
-    //     backgroundColor: 'lightblue',
-    //   },
-    // }),
   },
+
   image: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+    justifyContent: "flex-end",
   },
+
   form: {
-    marginHorizontal: 20,
+    // marginHorizontal: 20,
+    padding: 20,
+    borderRadius: 25,
+    backgroundColor: "#ffffff",
   },
+
+  formHeader: {
+    alignItems: "center",
+  },
+
+  formTitle: {
+    fontSize: 30,
+    color: "#000000",
+  },
+
   inputTitle: {
     marginBottom: 4,
     color: "#E8E8E8",
   },
+
   input: {
     height: 50,
-
     marginBottom: 12,
-
     borderWidth: 1,
     borderRadius: 8,
     borderColor: "#E8E8E8",
     backgroundColor: "#F6F6F6",
   },
+
   btn: {
     justifyContent: "center",
     alignItems: "center",
@@ -128,12 +151,18 @@ const styles = StyleSheet.create({
 
     borderWidth: 1,
     borderRadius: 100,
-    borderColor: 'transparent',
+    borderColor: "transparent",
     backgroundColor: "#FF6C00",
+
+    ...Platform.select({
+      ios: {},
+      android: {},
+    }),
   },
+
   btnTitle: {
     fontSize: 16,
     fontWeight: 400,
-    color: '#F6F6F6',
-  }
+    color: "#F6F6F6",
+  },
 });
