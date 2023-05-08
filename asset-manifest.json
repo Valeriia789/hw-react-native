@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/hw-react-native/static/js/main.751318bb.js",
-    "static/js/315.0bf7e9a5.js": "/hw-react-native/static/js/315.0bf7e9a5.js",
+    "main.js": "/hw-react-native/static/js/main.9ff0828c.js",
+    "static/js/758.6d41aba6.js": "/hw-react-native/static/js/758.6d41aba6.js",
     "static/media/background.jpg": "/hw-react-native/static/media/background.28b7467b5ef5b52d5ebd.jpg",
     "static/media/AmaticSC-Regular.ttf": "/hw-react-native/static/media/AmaticSC-Regular.fcbad0887ed49b623c0f.ttf",
     "favicon.ico": "/hw-react-native/favicon.ico",
@@ -10,11 +10,11 @@
     "favicon-16.png": "/hw-react-native/favicon-16.png",
     "serve.json": "/hw-react-native/serve.json",
     "manifest.json": "/hw-react-native/manifest.json",
-    "main.751318bb.js.map": "/hw-react-native/static/js/main.751318bb.js.map",
-    "315.0bf7e9a5.js.map": "/hw-react-native/static/js/315.0bf7e9a5.js.map"
+    "main.9ff0828c.js.map": "/hw-react-native/static/js/main.9ff0828c.js.map",
+    "758.6d41aba6.js.map": "/hw-react-native/static/js/758.6d41aba6.js.map"
   },
   "entrypoints": [
-    "static/js/315.0bf7e9a5.js",
-    "static/js/main.751318bb.js"
+    "static/js/758.6d41aba6.js",
+    "static/js/main.9ff0828c.js"
   ]
 }
