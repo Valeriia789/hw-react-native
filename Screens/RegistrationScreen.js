@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -11,6 +11,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
+  Dimensions,
 } from "react-native";
 
 import * as Font from "expo-font";
@@ -33,6 +34,19 @@ export default function RegistrationScreen() {
   const [state, setState] = useState(initialState);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [isReady, setIsReady] = useState(false);
+  // віднімає 20 від ширини базового екрану
+  const [ dimensions, setDimensions] = useState(Dimensions.get('window').width - 20 * 2);
+
+  useEffect(() => {
+    const onChange = () => {
+      const width = Dimensions.get('window').width - 20 * 2;
+      setDimensions(width)
+    }
+    Dimensions.addEventListener('change', onChange)
+    return () => {
+      Dimensions.removeEventListener('change', onChange)
+    }
+  }, [])
 
   const keyboardHide = () => {
     setIsShowKeyboard(false);
@@ -66,7 +80,7 @@ export default function RegistrationScreen() {
             behavior={Platform.OS == "ios" ? "padding" : "height"}
           >
             <View
-              style={{ ...styles.form, marginBottom: isShowKeyboard ? 20 : 0 }}
+              style={{ ...styles.form, marginBottom: isShowKeyboard ? 20 : 0, width: dimensions }}
             >
               <View style={styles.formHeader}>
                 <Text style={styles.formTitle}>Registration</Text>
@@ -137,6 +151,7 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     justifyContent: "flex-end",
+    alignItems: 'center',
   },
 
   form: {
@@ -168,8 +183,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
 
-    // fontFamily: "AmaticSC-Regular",
-    // fontSize: 20,
     color: "#171717",
 
     borderColor: "#E8E8E8",
