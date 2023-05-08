@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -15,18 +15,15 @@ import {
 } from "react-native";
 
 import * as Font from "expo-font";
-import AppLoading from "expo-app-loading";
+import * as SplashScreen from "expo-splash-screen";
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 
 const initialState = {
   username: "",
   email: "",
   password: "",
-};
-
-const loadApplication = async () => {
-  await Font.loadAsync({
-    "AmaticSC-Regular": require("../assets/fonts/AmaticSC-Regular.ttf"),
-  });
 };
 
 export default function RegistrationScreen() {
@@ -35,41 +32,74 @@ export default function RegistrationScreen() {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [isReady, setIsReady] = useState(false);
   // віднімає 20 від ширини базового екрану
-  const [ dimensions, setDimensions] = useState(Dimensions.get('window').width - 20 * 2);
+  const [dimensions, setDimensions] = useState(
+    // Dimensions.get("window").width - 20 * 2
+    Dimensions.get("window").width
+  );
 
   useEffect(() => {
+    async function prepare() {
+      try {
+        // Pre-load fonts, make any API calls you need to do here
+        await Font.loadAsync({
+          "AmaticSC-Regular": require("../assets/fonts/AmaticSC-Regular.ttf"),
+        });
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        // Tell the application to render
+        setIsReady(true);
+      }
+    }
+
+    prepare();
+
     const onChange = () => {
-      const width = Dimensions.get('window').width - 20 * 2;
-      setDimensions(width)
-    }
-    Dimensions.addEventListener('change', onChange)
+      const width = Dimensions.get("window").width;
+      // const width = Dimensions.get("window").width - 20 * 2;
+      setDimensions(width);
+    };
+
+    Dimensions.addEventListener("change", onChange);
     return () => {
-      Dimensions.removeEventListener('change', onChange)
-    }
-  }, [])
+      try {
+        Dimensions.removeEventListener("change", onChange);
+      } catch (e) {
+        console.warn(e);
+      }
+    };
+  }, []);
 
   const keyboardHide = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
   };
 
-  const onRegister = () => {
-    Alert.alert("Credentials", `${username} + ${email} + ${password}`);
-  };
+  // const onRegister = () => {
+  //   Alert.alert("Credentials", `${username} + ${email} + ${password}`);
+
+  //   console.log(state);
+  //   setState(initialState);
+  // };
+
+  const onLayoutRootView = useCallback(async () => {
+    if (isReady) {
+      // This tells the splash screen to hide immediately! If we call this after
+      // `setAppIsReady`, then we may see a blank screen while the app is
+      // loading its initial state and rendering its first pixels. So instead,
+      // we hide the splash screen once we know the root view has already
+      // performed layout.
+      await SplashScreen.hideAsync();
+    }
+  }, [isReady]);
 
   if (!isReady) {
-    return (
-      <AppLoading
-        startAsync={loadApplication}
-        onFinish={() => setIsReady(true)}
-        onError={console.warn}
-      />
-    );
+    return null;
   }
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
-      <View style={styles.container}>
+      <View style={styles.container} onLayout={onLayoutRootView}>
         <ImageBackground
           style={styles.image}
           source={require("../assets/images/background.jpg")}
@@ -80,7 +110,11 @@ export default function RegistrationScreen() {
             behavior={Platform.OS == "ios" ? "padding" : "height"}
           >
             <View
-              style={{ ...styles.form, marginBottom: isShowKeyboard ? 20 : 0, width: dimensions }}
+              style={{
+                ...styles.form,
+                // marginBottom: isShowKeyboard ? 20 : 0,
+                width: dimensions,
+              }}
             >
               <View style={styles.formHeader}>
                 <Text style={styles.formTitle}>Registration</Text>
@@ -97,6 +131,7 @@ export default function RegistrationScreen() {
                   onChangeText={(value) =>
                     setState((prevState) => ({ ...prevState, username: value }))
                   }
+                  // onChangeText={(value) => setState({ ...state, username: value })}
                 />
               </View>
 
@@ -151,13 +186,15 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     justifyContent: "flex-end",
-    alignItems: 'center',
+    alignItems: "center",
   },
 
   form: {
     // marginHorizontal: 20,
     padding: 20,
-    borderRadius: 25,
+    // borderRadius: 25,
+    borderTopStartRadius: 25,
+    borderTopEndRadius: 25,
     backgroundColor: "#ffffff",
   },
 
@@ -180,12 +217,13 @@ const styles = StyleSheet.create({
   input: {
     height: 50,
     marginBottom: 12,
+    paddingHorizontal: 16,
+
     borderWidth: 1,
     borderRadius: 8,
+    borderColor: "#E8E8E8",
 
     color: "#171717",
-
-    borderColor: "#E8E8E8",
     backgroundColor: "#F6F6F6",
   },
 
