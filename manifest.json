@@ -4,6 +4,5 @@
   "lang": "en",
   "name": "hw-react-native",
   "short_name": "hw-react-native",
-  "start_url": "/?utm_source=web_app_manifest",
-  "orientation": "portrait"
+  "start_url": "/?utm_source=web_app_manifest"
 }
