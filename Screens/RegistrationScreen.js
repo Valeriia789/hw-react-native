@@ -75,12 +75,12 @@ export default function RegistrationScreen() {
     Keyboard.dismiss();
   };
 
-  // const onRegister = () => {
-  //   Alert.alert("Credentials", `${username} + ${email} + ${password}`);
-
-  //   console.log(state);
-  //   setState(initialState);
-  // };
+  const onRegister = () => {
+    Alert.alert(`${state.username} + ${state.email} + ${state.password}`);
+    console.log(state);
+    keyboardHide();
+    setState(initialState);
+  };
 
   const onLayoutRootView = useCallback(async () => {
     if (isReady) {
@@ -106,8 +106,7 @@ export default function RegistrationScreen() {
         >
           <KeyboardAvoidingView
             // якщо платформа ios, KeyboardAvoidingView додасть падінг для форми на висоту клавіатури
-            // якщо платформа android, додасть просто висоту
-            behavior={Platform.OS == "ios" ? "padding" : "height"}
+            behavior={Platform.OS === "ios" ? "padding" : null}
           >
             <View
               style={{
@@ -165,7 +164,7 @@ export default function RegistrationScreen() {
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={styles.btn}
-                onPress={keyboardHide}
+                onPress={onRegister}
               >
                 <Text style={styles.btnTitle}>Sign Up</Text>
               </TouchableOpacity>
@@ -185,14 +184,13 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "flex-end",
     alignItems: "center",
+    justifyContent: "flex-end",
   },
 
   form: {
     // marginHorizontal: 20,
     padding: 20,
-    // borderRadius: 25,
     borderTopStartRadius: 25,
     borderTopEndRadius: 25,
     backgroundColor: "#ffffff",

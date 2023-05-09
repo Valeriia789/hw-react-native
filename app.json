@@ -22,6 +22,10 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
+      // Щоб зробити поведінку однаковою і керувати переркриттям клавіатури 
+      // за допомогою KeyboarAvoidingView на обох платформах - 
+      // треба змінити налаштування андроід:
+      // "softwareKeyboardLayoutMode": "pan"
     },
     "web": {
       "favicon": "./assets/favicon.png"
