@@ -1,76 +1,119 @@
-// import React, { useState } from "react";
-// import {
-//   StyleSheet,
-//   View,
-//   TextInput,
-//   TouchableWithoutFeedback,
-//   Keyboard,
-//   KeyboardAvoidingView,
-//   Platform,
-//   Alert,
-//   Button,
-// } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  View,
+  ImageBackground,
+  Text,
+  TextInput,
+  TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
+  Button,
+} from "react-native";
 
-// export default function LoginScreen() {
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
+import BackgroundImg from "../assets/images/background.jpg";
 
-//   const emailHandler = (text) => setEmail(text);
-//   const passwordHandler = (text) => setPassword(text);
+export default function LoginScreen(initialState) {
+  const [state, setState] = useState(initialState);
 
-//   const onRegister = () => {
-//     Alert.alert("Credentials", `${email} + ${password}`);
-//   };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const emailHandler = (text) => setEmail(text);
+  const passwordHandler = (text) => setPassword(text);
 
-//   return (
-//     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-//       <View style={styles.container}>
-//         <KeyboardAvoidingView
-//           behavior={Platform.OS == "ios" ? "padding" : "height"}
-//         >
-//           <TextInput
-//             value={email}
-//             onChangeText={emailHandler}
-//             placeholder="Email"
-//             style={styles.input}
-//           />
-//           <TextInput
-//             value={password}
-//             onChangeText={passwordHandler}
-//             placeholder="Password"
-//             secureTextEntry={true}
-//             style={styles.input}
-//           />
-//           <Button title={"Sign In"} style={styles.input} onPress={onRegister} />
-//         </KeyboardAvoidingView>
-//       </View>
-//     </TouchableWithoutFeedback>
-//   );
-// }
+  const onLogin = () => {
+    Alert.alert("Welcome", `${email} + ${password}`);
+  };
 
-// const styles = StyleSheet.create({
-//   height: Platform.OS === "ios" ? 50 : 100,
+  return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <ImageBackground source={BackgroundImg} style={styles.image}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : null}
+          >
+            <View style={styles.form}>
+              <View style={styles.formHeader}>
+                <Text style={styles.formTitle}>Sign In</Text>
+              </View>
 
-//   container: {
-//     flex: 1,
-//     alignItems: "center",
-//     justifyContent: "center",
-//     ...Platform.select({
-//       ios: {
-//         backgroundColor: "lightblue",
-//       },
-//       android: {
-//         backgroundColor: 'pink',
-//       },
-//     }),
-//   },
+              <TextInput
+                value={email}
+                onChangeText={emailHandler}
+                placeholder="Email"
+                style={styles.input}
+              />
+              <TextInput
+                value={password}
+                onChangeText={passwordHandler}
+                placeholder="Password"
+                secureTextEntry={true}
+                style={styles.input}
+              />
+              <Button
+                title={"Sign In"}
+                style={styles.input}
+                onPress={onLogin}
+              />
+            </View>
+          </KeyboardAvoidingView>
+        </ImageBackground>
+      </View>
+    </TouchableWithoutFeedback>
+  );
+}
 
-//   input: {
-//     width: 200,
-//     height: 44,
-//     padding: 10,
-//     borderWidth: 1,
-//     borderColor: "black",
-//     marginBottom: 10,
-//   },
-// });
+const styles = StyleSheet.create({
+  height: Platform.OS === "ios" ? 50 : 100,
+
+  container: {
+    flex: 1,
+    // ...Platform.select({
+    //   ios: {
+    //     backgroundColor: "lightblue",
+    //   },
+    //   android: {
+    //     backgroundColor: "pink",
+    //   },
+    // }),
+  },
+
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
+
+  form: {
+    padding: 20,
+    borderTopStartRadius: 25,
+    borderTopEndRadius: 25,
+    backgroundColor: "#ffffff",
+  },
+
+  formHeader: {
+    alignItems: "center",
+  },
+
+  formTitle: {
+    fontFamily: "AmaticSC-Regular",
+    fontSize: 30,
+    color: "#000000",
+  },
+
+  input: {
+    height: 50,
+    marginBottom: 12,
+    paddingHorizontal: 16,
+
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: "#E8E8E8",
+
+    color: "#171717",
+    backgroundColor: "#F6F6F6",
+  },
+});
