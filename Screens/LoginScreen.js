@@ -54,7 +54,7 @@ export default function LoginScreen(initialState) {
               />
               <Button
                 title={"Sign In"}
-                style={styles.input}
+                style={styles.button}
                 onPress={onLogin}
               />
             </View>
@@ -70,14 +70,14 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    // ...Platform.select({
-    //   ios: {
-    //     backgroundColor: "lightblue",
-    //   },
-    //   android: {
-    //     backgroundColor: "pink",
-    //   },
-    // }),
+    ...Platform.select({
+      ios: {
+        backgroundColor: "lightblue",
+      },
+      android: {
+        backgroundColor: "pink",
+      },
+    }),
   },
 
   image: {
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   },
 
   formTitle: {
-    fontFamily: "AmaticSC-Regular",
+    // fontFamily: "AmaticSC-Regular",
     fontSize: 30,
     color: "#000000",
   },
@@ -116,4 +116,8 @@ const styles = StyleSheet.create({
     color: "#171717",
     backgroundColor: "#F6F6F6",
   },
+
+  button: {
+    backgroundColor: 'red',
+  }
 });

@@ -14,7 +14,6 @@ import {
   Dimensions,
 } from "react-native";
 
-import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
 // Keep the splash screen visible while we fetch resources
@@ -38,21 +37,21 @@ export default function RegistrationScreen() {
   );
 
   useEffect(() => {
-    async function prepare() {
-      try {
-        // Pre-load fonts, make any API calls you need to do here
-        await Font.loadAsync({
-          "AmaticSC-Regular": require("../assets/fonts/AmaticSC-Regular.ttf"),
-        });
-      } catch (e) {
-        console.warn(e);
-      } finally {
-        // Tell the application to render
-        setIsReady(true);
-      }
-    }
+    // async function prepare() {
+    //   try {
+    //     // Pre-load fonts, make any API calls you need to do here
+    //     await Font.loadAsync({
+    //       "AmaticSC-Regular": require("../assets/fonts/AmaticSC-Regular.ttf"),
+    //     });
+    //   } catch (e) {
+    //     console.warn(e);
+    //   } finally {
+    //     // Tell the application to render
+    //     setIsReady(true);
+    //   }
+    // }
 
-    prepare();
+    // prepare();
 
     const onChange = () => {
       const width = Dimensions.get("window").width;
@@ -82,16 +81,16 @@ export default function RegistrationScreen() {
     setState(initialState);
   };
 
-  const onLayoutRootView = useCallback(async () => {
-    if (isReady) {
-      // This tells the splash screen to hide immediately! If we call this after
-      // `setAppIsReady`, then we may see a blank screen while the app is
-      // loading its initial state and rendering its first pixels. So instead,
-      // we hide the splash screen once we know the root view has already
-      // performed layout.
-      await SplashScreen.hideAsync();
-    }
-  }, [isReady]);
+  // const onLayoutRootView = useCallback(async () => {
+  //   if (isReady) {
+  //     // This tells the splash screen to hide immediately! If we call this after
+  //     // `setAppIsReady`, then we may see a blank screen while the app is
+  //     // loading its initial state and rendering its first pixels. So instead,
+  //     // we hide the splash screen once we know the root view has already
+  //     // performed layout.
+  //     await SplashScreen.hideAsync();
+  //   }
+  // }, [isReady]);
 
   if (!isReady) {
     return null;
@@ -201,14 +200,14 @@ const styles = StyleSheet.create({
   },
 
   formTitle: {
-    fontFamily: "AmaticSC-Regular",
+    // fontFamily: "AmaticSC-Regular",
     fontSize: 30,
     color: "#000000",
   },
 
   inputTitle: {
     marginBottom: 4,
-    fontFamily: "AmaticSC-Regular",
+    // fontFamily: "AmaticSC-Regular",
     color: "#a2a2a2",
   },
 
@@ -243,7 +242,7 @@ const styles = StyleSheet.create({
   },
 
   btnTitle: {
-    fontFamily: "AmaticSC-Regular",
+    // fontFamily: "AmaticSC-Regular",
     fontSize: 24,
     fontWeight: 400,
     color: "#F6F6F6",

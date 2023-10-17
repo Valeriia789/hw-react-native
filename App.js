@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useCallback } from "react";
+
 import RegistrationScreen from "./Screens/RegistrationScreen";
 import LoginScreen from "./Screens/LoginScreen";
 
@@ -9,13 +10,6 @@ const initialState = {
 };
 
 export default function App() {
-  const [fontsLoaded] = useFonts({
-    "AmaticSC-Regular": require("../assets/fonts/AmaticSC-Regular.ttf"),
-  });
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   return (
     <>
@@ -24,4 +18,3 @@ export default function App() {
     </>
   );
 }
-
